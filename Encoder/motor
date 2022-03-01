@@ -1,0 +1,1477 @@
+2021년 7월 12일
+ 
+이론
+ 
+∙C언어
+ 
+int = 자료형, age = 변수명, 12(숫자) = 정수
+ 
+printf(“%d\n”,age); = %d에 age 값을 넣어서 출력 -> 12
+ 
+주석 = /* ~ */, //
+ 
+ex) 46.5 = 실수형 변수 -> float f = 46.5f; 
+-> printf(“%.2f\n”,f); = 46.50 (소수점 둘째자리 까지 출력
+ 
+변수 = 변하는 수, 상수 = 변하지 않는 수
+상수 = const int year 2000; -> 변하지 않는다.
+실수형 변수 = float, double
+ 
+int add = 3+7
+printf(“3+7=%d\n”,add); -> 3+7 = 10
+ 
+scanf = 키보드 입력을 받아서 저장
+ex)
+int input;
+        printf("값을 입력하세요 : ");
+        scanf_s("%d", &input);
+        printf("입력값 : %d\n", input);
+ 
+int one, two, three;
+        printf("3개의 정수를 입력하세요 :");
+        scanf_s("%d %d %d", &one, &two, &three);
+        printf("첫번째 값 : %d\n", one);
+        printf("두번째 값 : %d\n", two);
+        printf("세번째 값 : %d\n", three);
+ 
+문자(한 글자), 문자열(한 글자 이상의 여러 글자)
+        /*char c = 'A';
+        printf("%c\n", c);
+ 
+char str[256]; //대괄호안에 큰 공간을 만든다
+        scanf_s("%s", str, sizeof(str));
+        printf("%s\n", str);
+ 
+∙GUI
+ 
+Matlab 명령 창에 guide -> 실행
+Blank GUI (Default)
+ 
+Callback = 최종 사용자가 구성요소를 트리거 -> 누름 버튼 누르기
+ 
+get = 가져오기, set = 입력하기, eval = 수식을 커맨드 창에 입력하여 나온 결과값
+ 
+hObject = 항상 콜백을 트리거하는 UI 구성요소
+ 
+eventdata = 특정 마우스 동작 또는 키보드 동작에 대한 정보가 포함된 변수
+ 
+handles = UI의 모든 객체가 포함된 struct형 변수 -> 구조체를 저장하고 관리
+ 
+global = 변수를 전역으로 선언 (전역변수)
+ 
+전역변수 = 어느 지역에서나 사용할 수 있는 변수
+ 
+지역변수 = 한 지역 내에서만 사용할 수 있는 변수
+ 
+struct = 구조체 -> 연결되어 한 덩어리로 처리하는 방식
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+실험
+ 
+
+ex)
+ 
+function number1000_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'String');
+set(handles.screen,'String',strcat(S,'1000'));
+ //screen에 1000원 버튼 입력시 1000입력
+function number500_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',strcat(S,'500'));
+ //screen에 1000원 버튼 입력시 500입력
+function coke_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',strcat(S,'500'));
+//screen에 1000원 버튼 입력시 500입력
+function sprite_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',strcat(S,'1000'));
+ 
+function orange_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',strcat(S,'500'));
+ 
+function number5000_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',strcat(S,'5000'));
+ 
+function screen_Callback(hObject, eventdata, handles)
+S=get(handles.screen,'String');
+if length(str)>1
+    S(end) = [];
+else
+    S='0';
+end
+set(handles.screen,'String',S);
+guidata(hObject,handles);
+function screen_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+function pushbutton7_Callback(hObject, eventdata, handles)
+S = get(handles.screen,'string');
+set(handles.screen,'string',''); //반환 버튼 클릭시 screen = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2021년 7월 13일
+ 
+이론
+• 모터드라이브(L298N 사용)
+ ▶ 모터드라이브를 사용하는 이유는 DC모터는 핀이 2개 밖에 없으므로 S/W적으로 제어가 불가능하다. 그러므로 정역 제어(방향을 반대로 돌리는)를 하기 위해서 모터 드라이버를 사용한다. 
+ L298N 모듈은 2개의 DC모터를 제어할 수 있으며 1개의 스텝모터까지 제어할 수 있다. 또한 PWM 단자에 연결하면 아날로그 데이터를 이용하여 속도를 조절할 수 있다.
+ 
+ 
+• BJT
+1. 쌍극 접합형 트랜지스터 (BJT, Bipolar Junction Transistor)
+ 
+  ㅇ 쌍극형 (Bipolar)
+     - 전하 반송자로 `전자` 및 `정공` 모두를 이용하는 쌍극(Bipolar)형 트랜지스터
+        . 한편, FET 계열은 단극형(Unipolar) 전계효과 트랜지스터 임
+ 
+ 
+2. BJT 트랜지스터의 구조
+ 
+  ㅇ 도핑 형태에 따라, 2개 종류(npn,pnp)로 구분
+     - n형,p형으로 도핑된 3개의 반도체 영역으로 구성되고,
+     - 2개의 pn 접합이 서로 반대로 맞물려 연결됨
+
+       
+ 
+  ㅇ 구조상의 특징 
+     - 이미터와 컬렉터가 물리적으로 대칭적이지 않음
+     - 즉, 도핑 농도 및 pn 접합 면적이 다르게 제작됨
+ 
+
+       
+ 
+  ㅇ 例) npn 트랜지스터의 경우
+     - 이미터(emitter) : 고 농도 도핑 (≒1019[㎝-3]), 폭이 중간 크기
+        . 전하캐리어(전자,정공) 제공. 가장 높게 도핑됨 
+     - 베이스(base) : 중간 농도 도핑(≒1017[㎝-3]), 폭이 가장 좁음
+        . 중간 도핑됨. 전류 증폭률을 키우기 위해 폭이 매우 얇게 만들어짐 
+     - 컬렉터(collector) : 저 농도 도핑 (≒1015[㎝-3]), 폭이 가장 넓음
+        . 베이스 영역을 지나온 전하캐리어(전자,정공)가 모여짐. 가장 낮게 도핑됨
+     - 즉,
+        . 도핑량 : 이미터 > 베이스 > 컬렉터
+        . 폭 크기 : 컬렉터 > 이미터 > 베이스
+        . 공핍층 : 이미터-베이스 공핍층 => 좁음,
+                    컬렉터-베이스 공핍층 => 넓음
+ 
+ 
+3. BJT 트랜지스터의 동작상의 특징
+ 
+  ㅇ 3 단자 능동소자
+     - 한 포트가 다른 포트의 흐름을 조절 (3 단자 2 포트)
+ 
+  ㅇ 주로, 전압제어전류원(트랜스컨덕턴스)으로 동작하는 3단자 소자
+     - 전압제어전류원은 부하 저항과 함께 사용되어 전압증폭기 형태로 구성할 수 있음
+ 
+  ㅇ 드물게, 전류제어전류원으로 동작
+     - 이때에는, 컬렉터 전류가 베이스 전류에 의해 직접 제어(IC = βIB)됨
+ 
+ 
+4. BJT 트랜지스터의 `동작 모드` 및 `응용(용도)` 구분
+ 
+  ㅇ BJT 동작모드
+     - 2개 PN 접합에 대한 바이어스 인가 형태에 따라, 
+     - 3개 동작모드 (활성모드, 포화모드, 차단모드)로 구분 
+ 
+
+       
+ 
+ 
+ 
+ 
+ 
+ 
+  ㅇ 例) BJT 활성모드 하의 형태,극성,구성
+       
+
+  ㅇ 주요 응용 : 증폭기, 스위치
+ 
+ 
+5. BJT 트랜지스터의 전류
+ 
+  ㅇ (전류 관계) 
+
+  ㅇ (전류 이득)
+     - 활성영역에서 만, `전류` 및 `전압` 모두가 의미 있음
+     - 차단영역,포화영역 하에서는, 전류는 큰 의미 없고, `전압` 만 의미 있음
+ 
+ 
+6. BJT 트랜지스터의 소신호 증폭기 구성
+ 
+  ㅇ 입출력 단자 간에 공통 단자가 어느 것인가에 따라 구분
+     - 공통 이미터(CE), 공통 컬렉터(CC), 공통 베이스(CB)
+   
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+실험
+
+//계산기 GUI
+ 
+//global = 전역변수 -> 변수를 전역으로 선언
+//C Selector -> C를 선택
+ 
+function minus_Callback(hObject, eventdata, handles)
+% hObject handle to minus (see GCBO)
+% eventdata reserved - to be defined in a future version of MATLAB
+% handles structure with handles and user data (see GUIDATA)
+global C Selector
+if strcmp(get(handles.screen,'String'),'')
+    set(handles.screen,'String','-');
+else
+C = str2num(get(handles.screen,'String'));
+Selector = 3;
+set(handles.screen,'String','');
+end
+ 
+ 
+ 
+//equal에 A B C D Selector, 부호별 +,-,*,/
+ 
+function equal_Callback(hObject, eventdata, handles)
+% hObject handle to equal (see GCBO)
+% eventdata reserved - to be defined in a future version of MATLAB
+% handles structure with handles and user data (see GUIDATA)
+global A B C D Selector
+switch Selector
+    case 1
+        A = A/str2num(get(handles.screen,'String'));
+        set(handles.screen,'String',num2str(A));
+    case 2
+        B = B*str2num(get(handles.screen,'String'));
+        set(handles.screen,'String',num2str(B));
+    case 3
+        C = C-str2num(get(handles.screen,'String'));
+        set(handles.screen,'String',num2str(C));
+    case 4
+        D = D+str2num(get(handles.screen,'String'));
+        set(handles.screen,'String',num2str(D));
+end
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+//DC모터 제어 + 제어 시 엔코더값 카운트 + 시간재기
+
+ 
+#define IN1 10 //선언 10번핀 in1으로 쓴다
+#define IN2 11
+#define ENCA 2
+#define ENCB 3
+#define LOOPTIME 100
+char data = 0; //시리얼 데이터 받는거 초기값
+ 
+int pos = 0; // 카운트 0으로 초기값 설정
+unsigned int startTime;
+unsigned int checkTime;
+unsigned int checkTimeBefore;
+void setup() {
+startTime = millis(); 
+pinMode(IN1,OUTPUT);
+pinMode(IN2,OUTPUT);
+Serial.begin(115200);
+ 
+pinMode(ENCA,INPUT_PULLUP);
+pinMode(ENCB,INPUT_PULLUP);
+attachInterrupt(digitalPinToInterrupt(ENCA),readEncoder,RISING);
+checkTimeBefore = millis(); 
+}
+void loop() {
+  while(1){ //시간 설정
+    checkTime = millis();
+    if (checkTime - checkTimeBefore>LOOPTIME){ 
+if(Serial.available()) 
+{
+  data = Serial.read(); //시리얼모니터 입력값을 데이터로 받는다
+  if(data == '1') 
+  {
+    digitalWrite(IN1,HIGH); //HH,LL 는정지 H,L는 정방향 L,H 반대
+    digitalWrite(IN2, LOW);
+  }
+  else if(data == '2')
+  {
+    digitalWrite(IN1,LOW);
+    digitalWrite(IN2,HIGH);
+  }
+  else if(data == '0')
+  {
+    digitalWrite(IN1,LOW);
+    digitalWrite(IN2,LOW);
+  }
+}
+{
+ Serial.println(pos);
+ Serial.print("checkTime:");
+ Serial.println(checkTime);
+ checkTimeBefore = millis();
+}
+}
+ }
+}
+void readEncoder(){
+  int b = digitalRead(ENCB); //정회전 +, 역회전 -
+  if(b>0){
+    pos++;
+  }
+  else{
+    pos--;
+  }
+}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2021년 7월 14일
+ 
+이론
+ 
+인터럽트
+운영 체제에서 컴퓨터에 예기치 않은 일이 발생하더라도 작동이 중단되지 않고 계속적으로 업무를 처리를 할 수 있도록 해 주는 기능
+ 
+시리얼 모니터
+아두이노와 컴퓨터간에 메시지를 주고받는 장치
+ 
+시리얼 통신
+Serial은 직렬이라는 뜻, 연소겆으로 통신채널이나 컴퓨터 버스를 거쳐 한 번에 하나의 비트 단위로 데이터를 전송하는 과정
+아두이노 우노의 경우 0번 핀(RX)과 1번 핀(TX)을 통해서 또는 USB연결을 통해 시리얼 통신
+ 
+Baud Rate(통신 속도)
+직렬 전송의 변조 속도를 1초간에 전송되는 신호의 수로 나타낸 값
+ 
+Serial.begin(통신 속도)
+시리얼 통신의 시작
+ 
+Serial.available();
+시리얼 포트에 수신되어 저장되어 있는 데이터의 바이트 수를 반환
+시리얼 포트로 수신된 데이터는 64바이트까지 버퍼에 저장된다.
+데이터를 받았다면 데이터 개수를 반환, 받지 않았다면 0을 반환
+ 
+https://codingrun.com/76
+ 
+Matlab을 이용한 시리얼 통신
+ 
+시리얼 통신 함수
+Serial.begin(baud) = 시작
+Serial.println(value) = 시리얼 모니터에 value의 내용을 출력하는 함수
+begin은 매트랩과 통신을 하기 위한 통신 속도가 결정되는 역할
+println은 매트랩으로 직접적인 값을 보내는 함수
+ 
+매트랩에서
+s = serial(‘COM3’) //아두이노가 컴퓨터에 연결되어 있는 포트
+ 
+set(s,‘BaudRate’,115200) // 아두이노와 통신을 하게 될 통신 속도
+ 
+fopen(s) //설정한 포트와 통신속도로 통신을 시작하겠다는 함수
+ 
+fscanf(s) // 현재 통신을 통해 들어오고 있는 값을 받겠다는 함수
+ 
+delete(instrfindall) // 아두이노와 매트랩의 통신을 끊겠다는 함수
+ 
+writeDigitalPin // 아두이노의 디지털핀 값을 읽는 함수
+https://lightjin619.tistory.com/entry/MATLAB%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%8B%9C%EB%A6%AC%EC%96%BC-%ED%86%B5%EC%8B%A0
+ 
+ 
+실험
+
+ 
+정방향, 역방향, 정지 버튼을 통해 dc모터 방향 제어
+밑에 스크롤을 통하여 dc모터 속도제어
+ 
+Matlab
+ 
+function varargout = DCcontrol_(varargin)
+gui_Singleton = 1;
+gui_State = struct('gui_Name', mfilename, ...
+                   'gui_Singleton', gui_Singleton, ...
+                   'gui_OpeningFcn', @DCcontrol__OpeningFcn, ...
+                   'gui_OutputFcn', @DCcontrol__OutputFcn, ...
+                   'gui_LayoutFcn', [] , ...
+                   'gui_Callback', []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+ 
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+function DCcontrol__OpeningFcn(hObject, eventdata, handles, varargin)
+handles.output = hObject;
+ 
+guidata(hObject, handles);
+function varargout = DCcontrol__OutputFcn(hObject, eventdata, handles) 
+varargout{1} = handles.output;
+clear all;
+global a;
+a = arduino;
+function pushbutton1_Callback(hObject, eventdata, handles)
+global a;
+writeDigitalPin(a, 'D9', 0);
+function pushbutton2_Callback(hObject, eventdata, handles)
+global a;
+writeDigitalPin(a, 'D9', 1);
+writeDigitalPin(a, 'D10', 0);
+function pushbutton3_Callback(hObject, eventdata, handles)
+global a;
+writeDigitalPin(a, 'D9', 0);
+writeDigitalPin(a, 'D10', 0);
+function slider1_Callback(hObject, eventdata, handles)
+global a;
+slider = get(hObject,'Value');
+slider1 = slider *20;
+set(handles.edit1, 'String', num2str(slider1));
+writePWMVoltage(a, 'D11', slider);
+guidata(hObject, handles);
+function slider1_CreateFcn(hObject, eventdata, handles)
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+function edit1_Callback(hObject, eventdata, handles)
+function edit1_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+// Encoder(HIGH LOW만) + pwm(속도제어) + dc모터(방향제어)
+int H[2]={5,6};
+int IN1 = 10;
+int IN2 = 11;
+int PWM 3;
+bool H_data[2]={0,1};
+void setup() {
+for(int i=0;i<2; i++){
+pinMode(H[i],INPUT_PULLUP);
+pinMode(IN1,OUTPUT);
+pinMode(IN2,OUTPUT);
+}
+Serial.begin(115200);
+}
+void loop() {
+H_data[0]=digitalRead(H[0]);
+H_data[1]=digitalRead(H[1]);
+Serial.print("");
+Serial.println();
+Serial.print("");
+Serial.println();
+if ((H_data[0])==0&&(H_data[1])==0) {
+Serial.print("LOW LOW");
+}
+else if ((H_data[0])==0&&(H_data[1])==1) {
+Serial.print("LOW HIGH");
+}
+else if ((H_data[0])==1&&(H_data[1])==0) {
+Serial.print("HIGH LOW");
+}
+if ((H_data[0])==1&&(H_data[1])==1) {
+Serial.print("HIGH HIGH");
+}
+if(Serial.available()) //시리얼 모니터에 데이터가 들어오면 실행해라
+{
+  char data;
+  data = Serial.read(); //시리얼모니터 입력값을 데이터로 받는다
+ 
+  if(data == '1') //1이라면
+  {
+    digitalWrite(IN1,HIGH); //HH,LL 는정지 H,L는 정방향 L,H 반대
+    digitalWrite(IN2, LOW);
+    analogWrite(3,255); //DC motor 최대속도 pwm
+    Serial.print("정회전");
+  }
+  else if(data == '2')
+  {
+    digitalWrite(IN1,LOW);
+    digitalWrite(IN2,HIGH);
+    analogWrite(3,100);
+    Serial.print("역회전");
+  }
+  else if(data == '0')
+  {
+    digitalWrite(IN1,LOW);
+    digitalWrite(IN2,LOW);
+    analogWrite(3,0);
+    Serial.print("정지");
+  }
+}
+}
+ 
+ 
+ 
+ 
+//추후 참고자료
+https://www.youtube.com/watch?v=dTGITLnYAY0
+https://diyver.tistory.com/154
+https://www.youtube.com/watch?v=hlyHBA8YBs0
+https://kr.mathworks.com/matlabcentral/fileexchange/32374-legacy-matlab-and-simulink-support-for-arduino
+https://blog.naver.com/roboholic84/221044353188
+https://blog.naver.com/roboholic84/221044368784
+https://blog.naver.com/roboholic84/221044375678
+https://www.youtube.com/watch?v=bjho5Ax7kQc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2021년 7월 19일
+ 
+이론
+ 
+● 전기 회로
+ 
+전지 = 전자가 지속적으로 이동할 수 있게 한다.
+전선(도선) = 전자가 이동하는 통로
+저항 = 전자의 흐름을 방해
+전압 = 전류를 빠르게 또는 느리게 만드는 전지의 능력
+전류 = 전자가 이동하는 속도
+전류의 방향 = +극 -> -극, 실제 전자의 이동 = -극 -> +극
+전원 = 회로에 전압을 만들어줌, 배터리의 경우 +극이 전원
+접지(GND) = 전압의 크기를 결정, 배터리의 경우 –극, 모든 회로는 같은 접지를 사용해야함
+정전용량 = 공급할 수 있는 최대전류
+정격 = 모든 전자 부품은 정격이 존재, 정격 이상의 전압 혹은 전류가 흐르면 파괴
+정격 출력 = 와트(W), 전압X전류, ex) 200W -> 10V일 때 2A가 한계
+출력 핀 = 전원 역할을 하는 핀, 전압이 걸리고 전류가 나감, I=V/R
+입력 핀(센서 역할) = 전압을 측정하는 핀, 전류가 흘러 전압이 걸림, V=IR
+ 
+● PWM(Pulse Width Modulation) - ontime, offtime
+ 
+Frequency 주파수 = 1초동안 3Duty cycle -> 3Hz
+
+ 
+Amplitude = Vmax – Vmin
+진폭 = 파동의 진동을 제한 그사이의 공간
+ 
+ex) 5V -> 50% 듀티 비가 50%일 때 2.5V -> 단순히 신호에서 최대전압은 곱하기 때문
+Vout = Vmax * Duty cycle
+Duty를 줄이면 출력 전압도 감소, 출력 전압이 PWM신호의 최소값 최대값 사이에서만 진동
+Arduino -> duty cycle 0은 0%, 255는 100%를 의미
+마이크로 컨트롤러 = 특정 주파수와 특정 폭으로 펄스를 보내 전원을 켠다.
+-> 전원공급장치를 켜고 끌 때 전원공급장치가 켜지면 전류가 전송된다.
+ 
+● DC모터
+기동 토크가 크다, 인가 전압에 대하여 회전특성이 선형적으로 비례
+가격이 비교적 저렴, 입력 전류에 대하여 출력토크가 선형적으로 비례, 출력 효율이 양호
+ 
+STEP모터 = step에 의해 구동되는 모터, 4개의 모터상이 있어 한 step진행하면서 모터가 회전, 한 step 당 1.8°씩 회전, AC,DC servo motor에 비해 싸고 정확한 각도제어에 유리하다.
+ 
+DC모터 정,역방향 제어 -> 브릿지 회로 구현
+DC모터 속도제어 -> 고속 PWM으로 속도제어
+ 
+다이오드 = 방향성이 있어 역방향으로는 전류를 흐르지 않게 차단하는 특징
+커패시터(Capacitor) = 콘덴서 = 정전용량을 얻기 위해 사용하는 부품으로 전자회로를 구성하는 중요한 소자
+ 
+
+다이오드 = 역전압 방지, 과전압 방지 -> 다이오드는 Anode단에 +, Cathode단에 –일때만 전류의 흐름을 허락한다.
+ 
+즉, Anode -, Cathode + 역전압시 전류의 흐름을 차단한다.
+Path에 Diode 직렬 -> path상 역전압 모두 차단
+정류(Rectification) = 한 방향으로만 전류가 흐르게 하는 것
+전자회로에서 IC들은 전압이 취약 -> Diode를 달아 전압이 걸리지 않도록 한다.
+ 
+ 
+ 
+과전압 방지
+Zene effect, Node에 내가 허용하고 싶은 전압이 최대 30V -> Zener voltage 30V인 Diode 역방향을 달아 주면 된다.
+ 
+커패시터 = 모두 Noise를 GND로 빼주는 역할, 고주파(교류)는 통과시키고 저주파(직류)는 차단한다. 교류AC, 직류DC 직류는 주파수 0Hz, 교류는 상대적 고주파
+모든 전기 신호는 2~3개 이상의 주파수가 합쳐졌다.
+전자회로에는 주로 저주파값을 활용하여 연산 및 제어, 회로 내에 존재하는 고주파는 Noise
+고주파(Noise) -> GND로 모두 빼주고 싶을 때 Capacitor 사용
+ 
+Low pass filter(LPF) = GND쪽에 Capacitor 사용
+(AC Noise 차단 회로) -> HIGH Frequency를 모두 GND로 빼주고 남아있는 low frequency신호만 통과
+ 
+
+ 
+고주파를 GND쪽으로 Bypass 시키기 때문에 -> Bypass capacitor
+ 
+저주파(직류)의 경우 capacitor에서 전하의 흐름이 딱 막혀 차단이 되지만
+고주파(교류)의 경우 극성이 계속 switching 되는 특성으로 전기 에너지가 전달되기 때문에 capacitor가 있어도 양단의 극성 switching을 이용하여 전기 에너지를 통과
+ 
+인덕터(inductor) = coil -> 전류의 변화를 억제한다.
+인덕터와 커패시터 = 반대의 성향, 전류의 변화가 극심한 고주파를 차단하고 상대적으로 변화가 없는 저주파 통과 AC 차단, DC 통과
+
+ 
+ 
+ 
+
+ 
+LC filter의 경우 RC filter보다 고주파 차단율이 더 좋다.
+왜? -> Capacitor를 통해 고주파를 GND로 빼줌과 동시에 inductor 또한 고주파 차단
+ 
+inductor는 Noise 차단 외에도 보호회로 or 안정화회로 구성에 많이 사용
+저주파만 통과 = 출력을 안정화 시키는 것
+ 
+도체 = 전기 통하는 (저항낮다), 부도체 = 전기가 X (저항높다), 전류나 전압흐름을 조절하여 증폭이나 스위치
+ 
+트랜지스터 = 회로 내에서 스위치 역할 -> 신호를 키우는 능력이 뛰어나 훌륭한 증폭기가 된다.
+ 
+
+ 
+BJT(Bipolar) = 이미터 총전류가 흐르고 베이스에서 전류흐름제어 신호증폭시켜주면 컬렉터에 증폭된 신호가 출력
+
+Base 5V collector -> emitter 간 전류 흐름
+Base 0V collector -> emitter 간 전류 흐르지 않음
+ 
+● H브리지 회로
+-> 모터의 방향을 바꾸기 위해 h-브리지 회로 사용, h-브리지는 부하에 전압을 인가하는데 사용되는 회로
+
+ 
+DC모터 제어시 주의사항
+정격 계산 = 모터에 인가될 수 있는 최대전압, 모터 구동 시 발생되는 최대 전류 확인
+역기전력 방지 = 모터의 브러쉬가 회전하면서 +극과 –극이 바뀌기 때문에 전류가 역류 현상
+전압원 선정 = 배터리
+과부하(Overload) = 과전류가 흘러 부품이 탈 수 있다 -> fuse 등 안전장치로 해결
+ 
+스위칭 다이오드(switching diode)
+전류의 흐름 방향에 따라 스위치 역할 -> 순방향:전류통과, 역방향:전류통과X
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2021년 7월 20일
+ 
+이론
+ 
+● 엔코더
+회전운동이나 직선운동을 하는 물체의 위치와 속도의 정보를 전기적인 신호로 출력하는 센서
+ 
+● 분해능
+엔코더 축이 1회전할 때 나오는 펄스 수를 의미
+즉, 회전을 얼마나 세밀하게 감지해 낼 수 있는가를 의미
+ 
+● 측정하는 물체의 운동 모양에 따라서 분류
+로터리 엔코더 = 회전 운동 검출용 센서
+리니어 엔코더 = 직선 운동 검출용 센서
+ 
+● 검출 방법에 따라서 분류
+비접촉식 = optical encoder, magnetic encoder
+측정 대상물의 위치 파악에 따라 -> incremental encoder(상대적 이동을 측정), absolute encoder(절대적 위치 측정)
+ 
+● 로터리 엔코더 (rotary encoder)
+기계적인 회전 변위(아날로그)를 전기적인 펄스(디지털)로 변환하는 장치, 기계장치의 위치, 각도,속도, 등의 측정이나 모터의 회전속도, 회전량의 제어 등 많은 분야에서 사용
+ 
+● 인크리멘탈 엔코더 (incremental encoder)
+회전축(shaft)의 회전각도로 그에 비례한 전기적인 신호(펄스)로 변환하여 출력, 대부분의 incremental형의 출력은 90° 위상차를 가진 A,B상과 원점출력인 Z상으로 구성
+ 
+● 앱솔루트 엔코더(Absolute encoder)
+회전축의 0°지점을 기준으로 360°를 일정한 비율로 분할하고, 분할된 각도마다 인식 가능한 전기적인 디지털 코드 지정하여 회전축의 회전 위치에 따라 지정된 디지털 코드가 출력되도록한 절대 회전 각도 검출용 센서, 따라서 회전축의 회전 각도에 대한 출력값은 어떠한 전기적인 요소에 의해서도 변화되지 않으므로 정전에 대한 원점보상이 필요가 없을뿐만 아니라 전기적인 노이즈에도 강한 것이 특징
+ 
+● 폐회로 제어 (Closed loop control)
+
+명령을 서보드라이버에 내리면 -> 위치, 속도, 토크 제어부에서 적절한 파워를 모터에 출력
+-> 모터 실행 -> 엔코더로부터 속도, 위치에 대한 피드백이 서보드라이버의 위치, 속도 제어부에 전달되어 오차를 보상하여 모터출력을 제어한다.
+ 
+ 
+● 인크리멘탈 엔코더
+
+출력 = 디지털 상대값 출력, 회전각의 변화에 따라 펄스가 출력된다.
+특징 = 정전시 회전할 경우 이동량을 알 수 없기에 원점(기준위치)를 매번 잡아야한다.
+구조 = 비교적 간단한 구조이기에 가격이 저렴하다.
+ 
+● 자기식 앱솔루트 (IC방식 비접촉 홀센서 엔코더)
+
+ 
+출력 = 디지털 절대값 출력, 1회전에 대한 회전각의 위치출력이 가능하다.
+특징 = IC칩이 자석의 방향을 검출하기에 소형화가 가능하며, 데이터 통신으로 위치값을 받아야한다.
+적용분야 = 소형 휴머노이드 로봇용 액추에이터
+ 
+● 자기식 인크리멘탈 (홀센서 엔코더)
+
+ 
+출력 = 광학식이 아닌 자기식(자석+홀센서)이며, 인크리멘탈 엔코더와 동일한 출력을 한다.
+특징 = 단순하고 저렴하다.
+구조 = 자석은 2극 또는 4극 방식이기에 광학식에 비해 분해능이 많이 떨어진다.
+적용분야 = 저가형 엔코더 모터
+ 
+● 접촉식 앱솔루트 (아날로그 가변저항 방식, 포지션 센서)
+
+ 
+출력 = 아날로그전압 출력, 1회전에 회전각의 위치에 대한 전압출력이 가능하지만, 검출이 불가능한 영역이 존재한다.
+특징 = 일반적인 가변저항과 달리 260도 회전이 가능하고 앱솔루트방식처럼 정전 후 회전하여도 축의 위치를 알 수 있다.
+구조 = 단순하고 가장 저렴하다.
+그 외 = 접촉식 가변저항이기에 회전을 많이 할수록 수명이 줄어든다. 심할 경우, 출력이 전혀 안될 수도 있다.
+적용분야 = RC용 서보모터 각도검출
+ 
+ 
+● 엔코더 모터 (encoder motor)
+엔코더 모터는 위치제어와 속도제어가 요구되는 곳에서 사용하며 엔코더에서 나오는 펄스의 개수로 위치제어를 할 수 있으며, 펄스 사이의 시간 간격을 이용하여 속도제어를 할 수 있다.
+ 
+● Pulse Per Revolution (PPR)
+엔코더를 한 바퀴 회전시켰을 때 한 채널에서 발생되는 펄스의 개수
+ex) PPR이 11이면 한 바퀴당 11개의 펄스가 나온다는 뜻, PPR을 기준으로 몇 바퀴 돌았는지, 회전속도는 어느 정도인지 등을 알려주는 모터이다.
+ 
+● 엔코더 모터에서 각도를 계산, 속도 측정 그리고 PID제어를 통한 위치와 속도 제어
+ 
+1. 펄스 및 위치 측정
+ex) 11PPR, 모터의 ratio가 330 -> 모터가 한 바퀴 돌 때, 엔코더는 330바퀴를 회전한다.
+-> 모터는 한 바퀴당 엔코더의 한 채널에서는 11*330 = 3630개의 펄스가 발생한다는 것을 알 수 있다.
+ 
+엔코더에는 A, B 라고 불리우는 채널이라는 개념이 있다. 즉, 엔코더의 신호가 나오는 선
+엔코더가 시계방향 (Clock Wise) 또는 반시계방향 (Count Clock Wise)에 따라 A,B 채널에서 다음과 같은 신호가 발생된다.
+ 
+
+ 
+시계 방향일 경우
+A핀이 LOW -> HIGH 변할 때(1번) B는 LOW, B가 LOW -> HIGH 일 때(2번) A가 HIGH
+LOW 일 때(3번) B는 HIGH, B가 HIGH -> LOW 일 때(4번) A가 LOW
+ 
+
+ 
+ 
+ 
+ 
+A핀이 LOW -> HIGH 즉, rising인 상태일 때 B의 상태가 LOW면 시계 방향(CW), HIHG면 반시계 방향(CCW)라는 것을 알 수 있다.
+->>> 이러한 Edge의 개수를 기반으로 얼만큼 회전했는지를 파악
+ 
+● 체배
+엔코더의 한 개념으로, A rising, A falling, B rising, B falling 등의 edge를 몇 개 사용하여 각도를 측정할 것인가에 대한 것
+ 
+각각의 dege에서 다른 채널의 상태에 따라 CW인지, CCW인지 알 수 있고, A rising일 때 B의 상태만 안다면 CW인지, CCW인지 알 수 있으므로 하나의 edge에서도 회전 방향을 알 수 있고, 4개 중 1개의 edge, 4개 중 4개 모두의 edge로 판단하든 회전 방향
+여기서 4개 중 1개의 edge를 사용하는 것이 1체배 방법, 2개 사용 2체배, 4개 4체배 -> 체배가 높을수록 보다 정확한 각도를 알 수 있다.
+ 
+ex) 11 PPR 엔코더는 엔코더 한 바퀴당 한 채널에서 11개의 펄스가 나오고, 2개의 채널(A,B)이 있으니 총 22개의 펄스가 나오며, 한 펄스당 2개의 edge(rising, falling)가 있으니 총 44개의 edge가 발생, 한 바퀴에 44개의 edge가 발생되니 360° 회전하는데 44개의 edge가 발생
+ 
+역으로 생각하면 하나의 edge가 감지 되면 대략 8.18° 회전, 여기서 한 채널 edge만 고려한다면 22개의 edge가 발생하고, 1 edge 당 16.36° 회전, rising edge만 교려하면 11개의 edge가 발생, 1 edge 당 32.73° 회전
+
+
+
+
+
+
+
+
+
+
+
+2021년 7월 22일
+ 
+실험
+ 
+● 엔코더 펄스 high low 바뀌는 엣지 카운터하기
+ 
+#define outputA 5
+#define outputB 6
+int counter = 0;
+int aState;
+int aLastState;
+void setup() {
+  pinMode(outputA,INPUT_PULLUP);
+  pinMode(outputB,INPUT_PULLUP);
+ 
+  Serial.begin(115200); //출력 A의 초기 상태를 읽는다.
+  aLastState = digitalRead(outputA);
+}
+ 
+void loop() {
+  aState = digitalRead(outputA); //출력의 현재상태를 읽는다.
+  //출력 A의 초기 상태와 현재 상태가 다르면 펄스가 발생한다.
+  if (aState != aLastState){ //두 연산자의 값이 같지 않은지를 비교하는 연산자: !=
+    //출력 B 상태가 출력 A 상태와 다르면 인코더가 시계 방향으로 회전하고 있음을 의미
+    if(digitalRead(outputB) != aState){
+      counter ++;
+    } else{
+      counter --;
+    }
+    Serial.print("Position: ");
+    Serial.println(counter);
+  }
+  aLastState = aState; // 출력 A의 이전 상태를 현재 상태로 업데이트한다. 
+}
+ 
+->> 각도값으로 변환하기위해 먼저 엔코더의 파형을 카운터한다.
+ 
+ 
+ 
+ 
+● 엔코더 카운터한 값을 이용해 각도값 출력
+ 
+#define outputA 5
+#define outputB 6
+unsigned int a=0; //unsigned = 음수값을 양수로 바꿔 데이터 저장양을 늘린다.
+double counter = 0;
+int aState;
+int aLastState;
+char data = 0; //시리얼 데이터 받는거 초기값
+const int IN1 = 10;
+const int IN2 = 11;
+const int pulsePin = 3;
+void setup() {
+  pinMode(outputA,INPUT_PULLUP);
+  pinMode(outputB,INPUT_PULLUP);
+ 
+  Serial.begin(115200); //출력 A의 초기 상태를 읽는다.
+  aLastState = digitalRead(outputA);
+}
+ 
+void loop() {
+  while(1){
+  aState = digitalRead(outputA); //출력의 현재상태를 읽는다.
+  //출력 A의 초기 상태와 현재 상태가 다르면 펄스가 발생한다.
+  if (aState != aLastState){ //두 연산자의 값이 같지 않은지를 비교하는 연산자: !=
+    //출력 B 상태가 출력 A 상태와 다르면 인코더가 시계 방향으로 회전하고 있음을 의미한다.
+    if(digitalRead(outputB) != aState){
+      counter ++;
+    } else{
+      counter --;
+    }
+    if(a%10==0){ //나머지 연산 -> why? 카운터 양에비해 프린터되는 값이 적어 줄임
+    Serial.print("Position: ");
+    Serial.println(counter*360/(27*26));} //카운터값을 360도 각도로 나눠주기위해 엔코더 한바퀴에 펄스수 26 * 기어비 1/27
+  }
+  a=a+1;
+  aLastState = aState; // 출력 A의 이전 상태를 현재 상태로 업데이트한다.
+if(Serial.available())
+{
+  data = Serial.read();
+  if(data == '1'){
+    digitalWrite(IN1, HIGH); //HH,LL는 정지 H,L는 정방향 L,H는 역방향
+    digitalWrite(IN2, LOW);
+    analogWrite(3,50);
+    Serial.print("역회전 ");
+  }
+  else if(data == '2')
+  {
+    digitalWrite(IN1, LOW); 
+    digitalWrite(IN2, HIGH);
+    analogWrite(3,50);
+    Serial.print("역회전 ");
+  }
+  else if(data == '0')
+  {
+    digitalWrite(IN1, LOW); 
+    digitalWrite(IN2, LOW);
+    analogWrite(3,0);
+    Serial.print("정지 ");
+  }
+  else if(data == '5')
+  {
+    digitalWrite(IN1, LOW); 
+    digitalWrite(IN2, LOW);
+    analogWrite(3,0);
+    counter = 0; // 정지와 동시에 카운터 초기값 0으로 만들어주기
+  }
+  }
+}
+}
+ 
+->> 엔코더카운터*모터한바퀴(360도)/ (기어비 1/27, encoder 한바퀴 *회전시 26pulse)를 통해 각도값을 추출하였고, 전압을 12V인가시 모터는 빠르게 회전하고 카운터 데이터는 받지만 모니터에서 카운터 프린터가 데이터의 양에 비해 느려서 각도값이 제대로 추출되지 않는 문제점이 발생하였고, 인식이 안되는 점을 생각하여 루프를 한 바퀴씩 돌 때마다 +1씩 카운터를 하였고 나머지 연산을 이용하여 엔코더 카운트 루프 마지막에 a라는 변수 a+1; 을하였고 a를 10으로 나눈 나머지가 0이 될 때마다 카운팅되도록 프로그램을 수정하여 12V 인가시에도 각도값이 정확하게 추출되도록 보완하였다.
+ 
+ 
+
+
+
+2021년 7월 23일
+ 
+이론
+ 
+● 정상상태 오차 (Steady-state Error)
+과도응답이 소멸한 후, 정상상태 하에서도 남게되는 입출력 차이
+시간이 무한대(t->∞)일 때, 정해진 `시험 입력(기준)`과 `실제 출력`과의 차이(오차)
+- 즉, 제어시스템의 출력과 기준 입력과의 차이(오차)
+
+● 정상상태 오차를 파악하려는 이유
+정상상태 오차(특정 기준 입력과의 오차)를 최소화하고자, 목표값에 추종하는 정도의 수치화/형태 등을 유형별로 다루고, 이를 설계에 반영하고자 한다.
+주로 전달함수 형태(시스템 형태)가 제어시스템의 정상상태 오차를 어떻게 영향을 주는가를 따진다.
+ 
+● 단위 피드백 제어시스템일 때 정상상태 오차가 많이 다뤄진다.
+-> 입력과 출력이 직접 비교되므로 오차 신호를 바로 알 수 있어서
+
+● PID control
+plant = 우리가 제어하고자 하는 시스템 또는 동작에 영향을 주고자 하는 시스템
+오차항 = 만약 출력이 명령한 그대로 나오면 오차는 0, 목표: 오차 0
+ex) controller=0.1 -> 시스템에 오차를 반영하고 거기에 0.1을 곱해서 걷는 속도를 얻는다는 의미 시작 시 오차가 50m, 초당 5m 속도로 걷기 시작하는 것
+
+ 
+ 
+실험
+ 
+● 각도값을 입력시 각도만큼 움직이고 정지상태 (진행 중)
+ 
+#define outputA 5
+#define outputB 6
+unsigned int a=0; //unsigned = 음수값을 양수로 바꿔 데이터 저장양을 늘린다.
+double counter = 0;
+int aState;
+int aLastState; 
+const int IN1 = 10;
+const int IN2 = 11;
+const int pulsePin = 3;
+long data = 360; //시리얼 데이터 받는거 초기값
+double a = 90; 
+void setup() {
+  pinMode(outputA,INPUT_PULLUP);
+  pinMode(outputB,INPUT_PULLUP);
+  Serial.begin(115200); //출력 A의 초기 상태를 읽는다.
+  aLastState = digitalRead(outputA);
+}
+void loop() {
+  while(1){
+  aState = digitalRead(outputA); //출력의 현재상태를 읽는다.
+  //출력 A의 초기 상태와 현재 상태가 다르면 펄스가 발생한다.
+  if (aState != aLastState){ //두 연산자의 값이 같지 않은지를 비교하는 연산자: !=
+    //출력 B 상태가 출력 A 상태와 다르면 엔코더가 시계 방향으로 회전하고 있음을 의미한다.
+    if(digitalRead(outputB) != aState){
+      counter ++;
+    } else{
+      counter --;
+    }
+    if(a%10==0){ //나머지 연산 -> why? 카운터 양에비해 프린터되는 값이 적어 줄임
+    Serial.print("Position: ");
+    Serial.println(counter*360/(27*26));} //카운터값을 360도 각도로 나눠주기위해 엔코더 한바퀴에 펄스수 26 * 기어비 1/27
+  }
+  a=a+1;
+  aLastState = aState; // 출력 A의 이전 상태를 현재 상태로 업데이트한다.
+  if(Serial.available())
+  {
+     data = Serial.read();
+  if(data == '1'){
+    digitalWrite(IN1, HIGH); //HH,LL는 정지 H,L는 정방향 L,H는 역방향
+    digitalWrite(IN2, LOW);
+    analogWrite(3,50);
+    Serial.print("정회전 ");
+  }
+  else if(data == '5')
+  {
+    digitalWrite(IN1, LOW); 
+    digitalWrite(IN2, LOW);
+    analogWrite(3,0);
+    counter = 0; // 정지와 동시에 카운터 초기값 0으로 만들어주기
+  }
+  if(data == 'a')
+  {
+    digitalWrite(IN1, HIGH); 
+    digitalWrite(IN2, LOW);
+    analogWrite(3,50);
+    Serial.print("바보 ");
+  }
+  else if (a == counter*360/(27*26))
+  {
+    digitalWrite(IN1, LOW); 
+    digitalWrite(IN2, LOW);
+    analogWrite(3,0);
+    Serial.print("성공 ");
+  }
+  }
+  }
+}
+->> if 조건 제시 만약 serial.read() -> 각도값 대입시 +는 정방향 –각도는 역방향으로 제어되고 엔코더를 이용해 변환된 motor 각도값이 출력되면서 조건 if (대입한 각도값이 프린터된 각도값과 같을 때) 정지
+->> 계속 다시 수정해보기
+
+
+2021년 7월 27일
+
+이론
+
+kp*e(오차)만 사용하는 경우
+kp를 증가시키면 진동(oscillation)이 커지면서 불안정성 증가
+kd*e가 변하는 속도를 추가한 경우
+방해에도 안정적으로 위치(높이) 유지
+ 
+PID 제어
+x[i] = c[i-1] + Px*x[i-1] + d[i]
+e[i] = r[i] - x[i]
+오차(e)를 제어(c)에 반영
+c=e에 관한 어떤 식
+c= Kp*현재e + Ki*누적e + Kd*e가 변하는 속도 (Kp, Ki, Kd는 상수)
+Kp*현재e: 현재의 오차를 제어에 반영하며 Kp(proportional gain)로 반영하는 정도를 조절
+Ki*누적e: 지금까지 축적된 오차를 제어에 반영하며 Ki(integral gain)로 반영하는 정도를 조절
+Kd*e가 변하는 속도: 오차가 변하는 속도를 제어에 반영하며 Ki9(derivative gain)로 반영하는 정도를 조절
+PID 제어 알고리즘
+c[i-1]= Kp*e[i-1] + Ki*sum_e[i-1] + Kd*diff_e[i-1]
+sum_e[i] = sum_e[i-1] + e[i]
+diff-e[i] = e[i] - e[i-1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+실험
+
+Arduino
+-> 기본 코드에 command 추가, command (left, right, stop)으로 제어
+Serial.println = 모터 각도제어시 매트랩으로 직접적으로 보내는 함수 추가
+realStringUntil =직렬 버퍼에서 문자열로 문자를 읽고 시간이 초과되면 함수가 종료
+
+String command;
+
+if(Serial.available())
+{
+  command = Serial.readStringUntil('\n');command_process();
+  command.trim();
+  if(command.equals("left")){
+    digitalWrite(IN1, HIGH); //HH,LL는 정지 H,L는 정방향 L,H는 역방향
+    digitalWrite(IN2, LOW);
+    analogWrite(3,50);
+    Serial.print("정회전 "); 
+    }
+
+   else if(command.equals("right")){
+    digitalWrite(IN1, LOW); //HH,LL는 정지 H,L는 정방향 L,H는 역방향
+    digitalWrite(IN2, HIGH);
+    analogWrite(3,50);
+    Serial.print("역회전 "); 
+    }
+   else if(command.equals("stop")){
+    digitalWrite(IN1, LOW); //HH,LL는 정지 H,L는 정방향 L,H는 역방향
+    digitalWrite(IN2, LOW);
+    analogWrite(3,0);
+    Serial.print("정지 "); 
+    }
+
+ void command_process(){
+if(command.equals("left")){Serial.print(" "); Serial.println(counter*360/(27*26));}
+if(command.equals("right")){Serial.print(" ");Serial.println(counter*360/(27*26));}
+else if (command.equals("stop")){Serial.print(" ");Serial.println(counter*360/(27*26));}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Matlab
+-> Arduino Matlab communication -> 추후 모터 제어시 그래프 값 확인해보기
+clear
+clc
+a= serialport('/dev/cu.usbmodem101',115200);
+plotTitle = '엔코더 값';  % plot title
+xLabel = '시간 (s)';     % x-axis label
+yLabel = 'Angle'; 
+legend1 = 'left';
+legend2 = 'right';
+legend3 = 'stop';
+yMax  = 10000 ;                          %y Maximum Value
+yMin  = 0 ; 
+plotGrid = 'on';                 % 'off' to turn off grid
+min = 0;                         % set y-min
+max = 360;                        % set y-max
+delay = .01;                     % make sure sample faster than resolution 
+%Define Function Variables
+dat=[0 0 0];
+data=0;
+data1=0;
+data2=0;
+time = 0;
+counter = 0;
+%Set up Plot
+plotGraph = plot(time,data,'-r' );
+hold on 
+%hold on makes sure all of the channels are plotted
+plotGraph1 = plot(time,data1,'-g');
+plotGraph2 = plot(time,data2,'-b');
+title(plotTitle,'FontSize',15);
+xlabel(xLabel,'FontSize',15);
+ylabel(yLabel,'FontSize',15);
+legend(legend1,legend2, legend3)
+axis([yMin yMax min max]);
+grid(plotGrid);
+tic
+while ishandle(plotGraph) %Loop when Plot is Active will run until plot is closed
+writeline(a,"left");
+dat(1)=str2double(readline(a));
+writeline(a,"right");
+dat(2)= str2double (readline(a));
+writeline(a,"stop");
+dat(3)=str2double(readline(a));
+counter =0;    
+time(counter) = toc;
+data(counter*360/(27*26))=dat(1);
+data1(counter*360/(27*26))=dat(2);
+data2(counter*360/(27*26))=dat(3);
+set(plotGraph,'left',time,'Data',data);
+set(plotGraph1,'right',time,'Data',data1);
+set(plotGraph2,'stop',time,'Data',data2);
+axis([0 time(counter) min max]);
+pause(delay);
+
+end
+delete(a);
+
+
+
+
+
+
+2021.7.28
+
+Arduino
+
+코드 또는 Arduino 스케치에서 PID 컨트롤러를 구현하려면 비례, 적분, 및 미분 상수, 입력 값 및 설정점 값의 다섯 가지 매개변수를 알아야한다.
+PID 계산은 루프 함수 내부에 있어야 하며 함수의 첫 번째 부분은 경과 시간을 결정해야 한다.
+Arduino에서 현재 시간은 millis()에 의해 결정
+
+currentTime = millis(); //현재시간 = 밀리스
+elapsedTime = currentTime - previousTime; // 경과시간 = 현재 시간 - 이전 시간
+error = setPoint - input; //오차의 적분은 시간에 따른 누적 오차
+cumError += error *elapsedTime; //오차의 미분은 오차의 변화율
+rateError = (error - lastError)/elapsedTime; //마지막으로 계산된 출력
+Output = Kp*error+Ki*cumError+Kd*rateError; //Kp, Ki, Kd는 소정의 상수
+LastError = error;
+previousTime = currentTime; // 반복을 위해 변수를 기록
+PID 계산하려면 Compute() 함수를 호출
+PID 를 자동,수동 SetMode() 함수
+
+
+DC 모터
+
+입력이 A, B 두 개가 있을 때 여기에 전기가 흐르면 회전을 하는 것이 모터
+전압이 A>B이면 전류가 A에서 B로 흐르면서 모터가 시계방향으로 회전
+전압이 A<B이면 전류가 B에서 A로 흐르면서 모터가 반시계방향으로 회전
+-> 모터를 한 뱡항으로 돌리는 것은 쉽다.
+
+뱡향을 바꾸는 것은 쉽지않다.
+-> 해결책으로 L298 드라이버 사용
+L298 드라이버 회로도
+하나의 드라이버로 2개의 모터를 제어할 수 있도록 만든 것
+절반을 잘라 왼쪽 면만 보면 중심에 트랜지스터 4개와 AND와 연결되어 있다. -> 이런 트랜지스터 회로의 형태를 H 브릿지라고 하며, 왼쪽에 IN1, IN2로 OUT1, OUT2에 연결된 모터를 제어한다.
+각각의 입력에 대해서 다음과 같이 정리
+ 여기서 IN1이나 IN2 둘 중 하나에 PWM을 넣으면 속도 조절이 되는데, 여기서 IN1에 PWM넣도록 하고 IN1,IN3는 PWM이고 IN2와 IN4는 Dir이다..(?)
+
+표에서 State3인 in1=high, in2=low일 때, in1에 PWM으로 넣으면 정회전으로 켜져있던 상태에서 돌렸다 풀었다하며 state1과 왔다갔다 하는 것
+반대로 state2에서 in1=low, in2=high일 때, in1에 PWM을 넣으면 원래 역회전으로 켜져있던 상태에서 브레이크였다 돌렸다 왔다갔다한다.
+
+지금 사용하는 모터(ig30gm 03type)
+encoderPos = 시작위치 -> 0
+ratio = 엔코더 값을 모터의 회전각도로 바꿔주는 것
+회전각도로 바꿀 것이기 때문에 분자는 360, 모터에 감속기가 달려있는데 감속 비율 1/27, 엔코더는 1회전시 26펄스를 뛴다 -> 감속기를 통한 최종 출력은 1바퀴에 702펄스이며, 각도로 변환시 1펄스에 0.5도까지 감지 가능하다.
+
+RPM(Revolution Per Min)
+전동기가 정격 전압. 정격 주파수 하에서 정격 출력을 내면서 운전하고 있을 때의 매분의 회전수를 정격 회전 속도
+전동기의 내부에는 몇 개의 자극이 형성되는데 1쌍의 자극이 생기는 것을 2극, 2쌍의 자극이 생기는 것을 4극
+3상 권선에 3상 교류를 흘리면 극수에 따라 자극이 생기고, 이것이 전류의 교번과 더불어 회전한다. 이와 같이 코일이 정지하고 있고, 자극만이 회전하는 것을 회전 자장이라고 부른다.
+등기 속도 Ns = 120f/p(rpm)f= 주파수(hz)P = 극수
+
+유도 전동기는 무부하에서는 거의 ns와 같은(약간 느린) 속도로 회전자가 회전하지만, 부하를 걸면 회전 속도가 수% 느려진다. 이것을 슬립(slip)이라고 한다.
+Ex) p=4극, f=60(hz)이면 등기 속도 Ns= 120x60/4 = 1800rpm,  정격 회전 속도 1720rpm(220v의 경우)이므로 슬립은 slip = (1800-1720)/1800 = 0.044 즉 4.4% 이다.
+ 
+P제어
+
+Control = Kp*(targetDeg-motorDeg)
+제어신호 = P게인*(목표값 - 현재값)
+
+즉, 목표값과 현재값의 차이만큼 제어신호, 여기서는 모터입력인 PWM을 넣어주는 것
+목표값과 현재값의 차이를 에러(Error)라고 한다.
+에러가 크면 더 빨리 회전, 작으면 천천히 회전 -> pwm
+목표값이 현재값보다 크면 정회전, 작으면 음수가 되므로 역회전
+
+encoderPos = 702펄스가 나와야한다 (감속기를 통한 최종 출력), motorDeg = 각도, error 에러값, control = 제어 신호, motorVel = pwm
+targetDeg는 출발위치 기준으로 움직이고자 하는 곳으로 360이면 정회전
+>> 현재 360 각도 시 encoder counter가 702펄스 나오는 것을 확인 (최종 출력) 
+추후 배터리 사용 할 때 속도 제어 시 error 값 확인하기! 
+
+PID제어
+
+먼저 설정해야하는 것
+목표값 = 목표로하는 모터의 RPM -> target
+현재값 = 현재 모터의 RPM-> currnet
+실시간 에러값 = 목표 RPM과 현재 RPM 사이의 차이값 -> realError
+누적 에러값 = 목표 RPM과 현재 RPM 사이의 차이를 누적한 값 -> accError
+에러 변화량 = 현재 에러와 이전 에러 사이의 차 -> errorGap
+P,I,D 제어량 -> p,i,d Control로 , 각 제어를 통해 얻은 제어량을 -> p,i,d_gain으로 설정(상수)
+최종 제어량 -> pidControl,  미분계수 값을 time -> d/dt(상수)
+
+1. 에러의 종류 실시간 에러, 누적 에러가 있기에 계산하는 함수 먼저 선언해주기
+>> errorGap = D제어를 위해, realError = 목표값 - 현재값 -> P제어를 위해, accError는 realError 누적한 값으로 I제어를 위해 사용하기
+
+2. 변수 선언
+>> 수학적으로는 모두 실수값인 double형으로 선언해야하지만 MCU는 실수 연산을 못해서 int형으로 선언하기
+
+3. 제어 함수
+>> P 제어는 오차*계수 -> pControl = P_gain*realError; return pControl; -> 이런식으로
+>> I 제어는 지금까지의 오차를 기준으로 제어 -> iControl = I_gain*(accError*time); return iControl;
+여기서 realError를 누적한 값이 accError
+>> D 제어는 dControl = D_gain*(errorGap/time); return dControl;
+>> pidControl = pControl + iControl + dControl; return pidControl;
+
+->  작성 후 목표값 선과 현재값 선이 rpm이 변할 때 에러값을 계속 줄여주는 식으로 그래프로 확인해야한다. 
+
+
+
+
+
+
+
+
+2021.7.29
+
+P제어
+비례제어는 목표값과 현재값의 차이에 비례하여 제어하는 것, 목표값과 멀리 떨어져있다면 제어량이 늘어나고, 가까워지면 제어량이 줄어드는 형식
+제어 이전에는 출력이 목표 값에 도달하지 못함, P제어 이후 오차 값(목표값 - 현재값)만큼 비례해서 신호를 증폭
+>> 편차가 줄어듬에 따라 제어량이 작아져 더이상 제어량이 늘어나지 않는다. -> 여기서 남은 편차 = 잔류 편차
+
+PI제어
+비려*적분제어 P제어에서 보였던 잔류편차를 줄이기 위한 방식, 편차를 누적하여 이를 제어량에 더해주는 것
+>>P제어보다 목표치에 가까워졌으나 응답속도가 느리다. -> 응답속도가 느릴 경우 외란에 대해서 빠른 대처가 힘들다.
+
+PID제어
+비례*적분*미분 제어는 PI제어에서 보완되지 못한 응답속도(시정수, 시상수)를 보완해주기 위해 미분과정이 추가된 것, 미분과정이 더해짐으로서 더욱 빠른 응답속도를 얻을 수 있다.
+>>PI제어에 비해 PID제어가 조금 더 나은 응답속도를 보여주는 것을 알 수 있다.
+
+PID 모두가 포함되면 정밀한 동작을 보여주지만 반드시 모두가 포함될 필요는 없다.
+예를들어 저장공간이 부족한 경우 값을 계속 누적해야하는 I를 제외한 PD제어를 쓰기도 하며 외란이 발생하지 않는 경우는 PI제어만 쓰기도 한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+P제어
+>> 추후 전원 연결 시 제어 되는지 확인
+>> 목표값과 현재값의 차이만큼 제어신호, 모터입력인 PWM을 넣어 주고
+에러(목표값과 현재값의 차이)가 크면 더 빨리 회전, 작으면 천천히 회전, 목표값이 현재값보다 크면 정회전, 작으면 음수가 되므로 역회전을 하여야 한다.
+
+#define outputA 5
+#define outputB 6
+unsigned int a=0; //unsigned = 음수값을 양수로 바꿔 데이터 저장양을 늘린다.
+double counter = 0;
+int aState;
+int aLastState;
+char data = 0; //시리얼 데이터 받는거 초기값
+const int IN1 = 10;
+const int IN2 = 11;
+const int pulsePin = 3;
+const float ratio = 360./27./26.; //./=나눗
+
+//P control
+float Kp = 50; //증가시키면 목표값에 가까워짐
+float targetDeg = 360;
+void doMotor(bool dir, int vel){
+  digitalWrite(IN1, dir);
+  digitalWrite(IN2, dir);
+  analogWrite(pulsePin, dir?(255 - vel):vel);
+}
+void setup() {
+  pinMode(outputA,INPUT_PULLUP);
+  pinMode(outputB,INPUT_PULLUP);
+
+  Serial.begin(115200); //출력 A의 초기 상태를 읽는다.
+  aLastState = digitalRead(outputA);
+}
+void loop() {
+  while(1){
+  aState = digitalRead(outputA); //출력의 현재상태를 읽는다.
+  //출력 A의 초기 상태와 현재 상태가 다르면 펄스가 발생한다.
+  if (aState != aLastState){ //두 연산자의 값이 같지 않은지를 비교하는 연산자: !=
+    //출력 B 상태가 출력 A 상태와 다르면 인코더가 시계 방향으로 회전하고 있음을 의미한다.
+    if(digitalRead(outputB) != aState){
+      counter ++;
+    } else{
+      counter --;
+    }
+    if(a%10==0){ //나머지 연산 -> why? 카운터 양에비해 프린터되는 값이 적어 줄임
+  float motorDeg = float(counter)*ratio;
+  float error = targetDeg - motorDeg; //목표값 - 현재값
+  float control = Kp*(error);
+
+  doMotor( (control>=0)?HIGH:LOW, min(abs(control), 255));
+  Serial.print("encoderPos : ");
+  Serial.print(counter);
+  Serial.print("   motorDeg : ");
+  Serial.print(float(counter)*ratio);//카운터값을 360도 각도로 나눠주기위해 엔코더 한바퀴에 펄스수 26 * 기어비 1/27
+  Serial.print("   error : ");
+  Serial.print(error);
+  Serial.print("    control : ");
+  Serial.print(control);
+  Serial.print("    motorVel : ");
+  Serial.println(min(abs(control), 255));}
+  }
+  a=a+1;
+  aLastState = aState; // 출력  A의 이전 상태를 현재 상태로 업데이트한다.
+}
+}
+
+PID 제어
+
+  float motorDeg = float(counter)*ratio;
+  float error = targetDeg - motorDeg; //목표값 - 현재값
+  float P_control = Kp*(error);
+  float I_control = I_control+Ki*error;
+  float D_control = Kd*(error-error_previous);//에러 - 이전에러
+
+  PID_control = P_control + I_control + D_control;
+  PID_control = constrain(PID_control,0,255); //constrain->숫자를 어느범위로 제한 즉 0~255
+  float control = PID_control;
+
+>>수정필요
+
+
+
+
+
+
+ 
+
+fopen(s) = 통신속도
+fscanf(s) = 설정한 포트와 통신속도로 통신 시작
+delete(instrfindall) = 변수 저장, Serial.read 와 같은 기능
+
+
+Arduino
+
+int FSR_Pin = A0; //아날로그핀을 A0에 연결
+void setup(){
+ Serial.begin(115200); //시리얼통신 Baudrate을 115200
+}
+
+void loop(){
+ int FSRReading = analogRead(FSR_Pin); // A0로부터 값을 읽어서 FSRReading이라는 변수에 저장
+
+ Serial.println(FSRReading); // 갑을 출력한다. println을 사용하면 매번 줄바꿈을 한다.
+ delay(250); // 0.25초마다 읽기
+}
+
+
+Matlab (m-file작성)
+
+clc
+delete(instrfindall) % 현재 연결되어 있는 시리얼포트들을 지운다.
+s2 = serial(‘COM29’); % 아두이노에서 연결했던 시리얼포트 번호를 입력
+fopen(s2); % 포트를 연다.
+time = 0;
+for I=1:100;
+ time=time+1;
+ a=str2num(fscanf(s2)); //시리얼 통신으로 전송받은 string데이터 저장, ex)[data,tf]=data행렬에 저장
+ plot(time, a, ’*’)
+ xlin([0 100]);
+ hold on;
+ drawn; % Plot을 계속 업데이트 -> realtime 처럼
+end
+fclosef(s2) % 포트 닫기
+delete(instrfindall) % 모든 시리얼포트 정보를 지움 -> 다시 아두이노 프로그램을 열 때 에러 방지
+
+
+->
+clc
+delete(instrfindall)
+serial
+fopen(s2)
+
